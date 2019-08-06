@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="theme-color" content="#93b658">
+    <title>网页元素的旋转 | Hexo </title>
+
+    
+        <meta name="keywords" content=",,">
+        
+
+    
+    <meta name="description" content="使网页元素旋转有两种方法 一种为元素自旋转，一种为平移旋转 平移旋转需要用到推导坐标旋转的公式 旋转的公式网上有很多，这里就不做推导了。 参考：推导坐标旋转公式 // 设A点旋转前的角度为δ，则...">
+
+    
+
+    
+
+    
+
+    
+        <link rel="stylesheet" href="/lib/social-share.js/dist/css/share.min.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/lib/materialize/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="/lib/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/css/post/atom-one-light.css">
+    <link rel="stylesheet" href="/css/pteris.css">
+
+
+    
+        <link rel="stylesheet" href="/css/post.css">
+    
+
+    
+        <link rel="stylesheet" href="/lib/lightgallery.js/dist/css/lightgallery.min.css">
+    
+
+    
+</head>
+
+<body>
+
+<header>
+    
+        <div class="header-fixed">
+    <nav class="white lime-text lighten-1 " role="navigation">
+        <div class="nav-wrapper container">
+            <div id="logo-container">
+                <a href="/">
+                    
+                    <span class="brand-logo">Hexo</span>
+                </a>
+            </div>
+
+            <ul class="right hide-on-med-and-down">
+                
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse">
+                <i class="fa fa-bars green-text"></i></a>
+        </div>
+    </nav>
+</div>
+
+<ul id="nav-mobile" class="side-nav">
+    
+</ul>
+
+
+
+    
+</header>
+
+<main>
+    
+
+    <div id="post">
+        <div class="container">
+            <div id="post-header" class="center">
+                <h1 class="center">网页元素的旋转</h1>
+                <span class="post-date center">
+                    <i class="fa fa-calendar"></i>
+                    <time datetime="2017-03-30T06:06:49.000Z">
+                        2017-03-30
+                    </time>
+                </span>
+
+                
+
+                
+                    <div class="post-gallery">
+                        <div id="lightgallery">
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            <article>
+                <div class="content">
+                    
+    <p>使网页元素旋转有两种方法 一种为元素自旋转，一种为平移旋转 平移旋转需要用到推导坐标旋转的公式 旋转的公式网上有很多，这里就不做推导了。 参考：<a href="http://www.cnblogs.com/ywxgod/archive/2010/08/06/1793609.html" target="_blank" rel="noopener">推导坐标旋转公式</a> // 设A点旋转前的角度为δ，则旋转(逆时针)到C点后角度为δ+β // A点坐标为(x,y) C点坐标为(c,d) 圆心坐标为(b,c) 旋转半径为R // c=r*cos(δ+β)=r*cos(δ)cos(β)-r*sin(δ)sin(β)=xcos(β)-ysin(β) // d=r*sin(δ+β)=r*sin(δ)cos(β)+r*cos(δ)sin(β)=ycos(β)+xsin(β) 即旋转后的坐标c，d只与旋转前的坐标x，y及旋转的角度β有关。 获得了公式后具体实现方法就很简单了 将要旋转元素的位置与公式关联然后通过计时器刷新位置即可。 <strong>html部分：</strong></p>
+<p>a{top:400px; left: 500px;position:absolute;width: 0px;height:0px;background-color: bisque;}<br>.b{top:300px; left: 300px;position: absolute;width: 100px;height: 100px; background-color: aqua;}<br>.c{position:absolute;width: 50px;height: 200px;background-color:cornflowerblue;}<br>.d{top:50px; left: -50px;position:absolute;width: 200px;height: 10px;background-color:chartreuse;}</p>
+<div class="a">
+<div class="b"></div>
+<div class="c"></div>
+<div class="d"></div>
+</div>
+
+<p><strong>js部分：</strong></p>
+<p>var horn=0; //旋转角度<br>//获取元素的位置<br>var By=parseInt($(“.b”).css(“top”));<br>var Bx=parseInt($(“.b”).css(“left”));<br>$(“document”).ready(function(){<br>console.log(By+”&amp;”+Bx);<br>var s= setInterval(function(){<br>horn+=0.01;<br>位置旋转平移(horn);<br>},5);<br>});<br>function 位置旋转平移(h){<br>var c=(Bx*Math.cos(h))-(By*Math.sin(h));<br>var d=(By*Math.cos(h))+(Bx*Math.sin(h));<br>$(“.b”).animate({<br>top:d,left:c<br>},30);<br>// $(“.b”).css(“top”,d);<br>// $(“.b”).css(“left”,c);<br>}</p>
+<p>还有一种旋转类型为 元素自我旋转 元素自我旋转可以直接使用html的css3动画<strong>transform:rotate(‘current’deg)</strong>实现 <strong>自旋转的实现：</strong></p>
+<p>//利用css3的旋转动画<br>function 自旋转(){<br>    current+=10;<br>    if(current==360){current=0;}<br>    $(“.a”).css({<br>        transform:”rotate(“+current+”deg)”<br>    });<br>}</p>
+
+
+                </div>
+            </article>
+
+
+            <div class="post-tags center">
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/HTML/">HTML</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/js/">js</a>
+                   </span>
+                
+            </div>
+
+
+            <div class="social-share" data-mobile-sites="weibo,qq,qzone,facebook,twitter">
+                <span id="share-to">Share to</span>
+            </div>
+
+            <div class="post-footer">
+                
+                    <a class="left" href="/2017/04/13/ios-number-display-exception/" rel="prev" title="ios  上 数字 显示 异常问题">
+                        <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+                        <span>  ios  上 数字 显示 异常问题</span>
+                    </a>
+                
+                
+                    <a class="right" href="/2016/11/30/e5-98-9b-e7-ac-ac-e4-b8-80-e7-af-87-e6-97-a5-e5-bf-97/" rel="next" title="嘛.....">
+                        嘛.....<i class="fa fa-arrow-circle-right fa-3x "></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+<footer>
+    
+        <footer class="page-footer">
+    <div class="footer-copyright">
+        <div class="container">
+            <div>© 2017 Copyright John Doe
+                <span class="right">
+                powered by
+                <a href="http://hexo.io">hexo</a>.
+                theme:
+                <a href="https://github.com/jonashao/hexo-theme-pteris">pteris</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    
+</footer>
+
+    
+</footer>
+
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/materialize/dist/js/materialize.min.js"></script>
+<script src="/lib/headroom.js/dist/headroom.min.js"></script>
+<script src="/lib/headroom.js/dist/jQuery.headroom.min.js"></script>
+
+
+
+    <script src="/lib/social-share.js/dist/js/share.min.js"></script>
+
+
+
+<script src="/js/pteris.js"></script>
+
+
+    <script src="/lib/lightgallery.js/dist/js/lightgallery.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address,big, cite, code,del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul,li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed,figure, figcaption,footer, header, hgroup,menu, nav, output, ruby, section, summary,time, mark, audio, video {margin: 0;padding: 0;border: 0;font-size: 100%;font: inherit;vertical-align: baseline;}article, aside, details, figcaption, figure,footer,header, hgroup, menu, nav, section {display: block;}body {line-height: 1;}ol, ul{list-style: none;}blockquote, q {quotes: none;}blockquote:before, blockquote:after,q:before, q:after {content: "";content: none;}table {border-collapse: collapse;border-spacing: 0;}
+html{
+    font-size: 13px;
+}
+
+.psy {
+    margin: 5px 2.5%;
+    width: 95%;
+}
+.psy *{text-decoration:none;}
+
+.psy .line_title {
+    text-align: center;
+}
+
+.psy .psy_area .psy_term {
+    background-color: #fff;
+    border-radius: .25rem;
+    border-bottom: 2px solid #7CCD7C;
+    box-shadow: rgba(0, 0, 0, 0.05) 1px 1px 1px 1px;
+    padding-bottom: .5rem;
+}
+
+.psy .psy_area .psy_term .psy_title {
+    text-indent: 0;
+    position: relative;
+    width: 90%;
+    margin: 10px 10px;
+    height: auto;
+    line-height: auto;
+    font-size: 1.25rem;
+    line-height: 24px;
+    text-align: left;
+    overflow: hidden;
+    color: #333;
+    margin: 20px 10px 10px;
+}
+
+.psy .psy_area .psy_term .psy_title .label{
+    display: inline-block;
+    padding: 4px 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 14px;
+    color: #fff;
+    vertical-align: baseline;
+    white-space: nowrap;
+    background-color: #51aded;
+    margin-right: 15px;
+    position: relative;
+    top: -3px;
+}
+
+.psy .psy_area .psy_term .psy_title .label:after {
+    position: absolute;
+    width: 0;
+    height: 0;
+    vertical-align: top;
+    content: "";
+    top: 8px;
+    right: -3px;
+    border-left: 4px solid #51aded;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+}
+
+.psy .psy_area .psy_term .psy_art {
+    display: flex;
+}
+
+.psy .psy_area .psy_term .psy_art .psy_content {
+    width: calc(100% - 240px);
+}
+
+.psy .psy_area .psy_term .psy_art .psy_thumb{
+    background: #321;
+    position: relative;
+    overflow: hidden;
+    width: 240px;
+    height: 145px;
+    margin: 20px;
+}
+
+.psy .psy_area .psy_term .psy_bom {
+    border: 0;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.psy .psy_area .psy_term .psy_bom div{
+    margin: 8px 0 0 18px;
+    font-size: 1rem;
+    color: #999999;
+    display: block;
+}
+.psy_art_content_new{
+    padding: 5px 20px;
+    color:#848484;
+    line-height: 1.5;
+}

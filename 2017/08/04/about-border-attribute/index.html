@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="theme-color" content="#93b658">
+    <title>关于border属性 | Hexo </title>
+
+    
+        <meta name="keywords" content=",,">
+        
+
+    
+    <meta name="description" content="今天被dalao问到一个问题 当一个盒子元素的宽高内边距都是0的时候，border:1px solid #000会有什么效果 当时我是一脸懵逼的。 回去仔细查询了一下资料发现border可以直接...">
+
+    
+
+    
+
+    
+
+    
+        <link rel="stylesheet" href="/lib/social-share.js/dist/css/share.min.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/lib/materialize/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="/lib/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/css/post/atom-one-light.css">
+    <link rel="stylesheet" href="/css/pteris.css">
+
+
+    
+        <link rel="stylesheet" href="/css/post.css">
+    
+
+    
+        <link rel="stylesheet" href="/lib/lightgallery.js/dist/css/lightgallery.min.css">
+    
+
+    
+</head>
+
+<body>
+
+<header>
+    
+        <div class="header-fixed">
+    <nav class="white lime-text lighten-1 " role="navigation">
+        <div class="nav-wrapper container">
+            <div id="logo-container">
+                <a href="/">
+                    
+                    <span class="brand-logo">Hexo</span>
+                </a>
+            </div>
+
+            <ul class="right hide-on-med-and-down">
+                
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse">
+                <i class="fa fa-bars green-text"></i></a>
+        </div>
+    </nav>
+</div>
+
+<ul id="nav-mobile" class="side-nav">
+    
+</ul>
+
+
+
+    
+</header>
+
+<main>
+    
+
+    <div id="post">
+        <div class="container">
+            <div id="post-header" class="center">
+                <h1 class="center">关于border属性</h1>
+                <span class="post-date center">
+                    <i class="fa fa-calendar"></i>
+                    <time datetime="2017-08-04T10:44:14.000Z">
+                        2017-08-04
+                    </time>
+                </span>
+
+                
+
+                
+                    <div class="post-gallery">
+                        <div id="lightgallery">
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            <article>
+                <div class="content">
+                    
+    <p>今天被dalao问到一个问题 当一个盒子元素的宽高内边距都是0的时候，border:1px solid #000会有什么效果 当时我是一脸懵逼的。 回去仔细查询了一下资料发现border可以直接绘制，并不需要盒子模型其他属性的依赖……果然我还是有很多不足的地方….. 所以border:1px solid #000 依旧会绘制出一个1px的像素点 回答没有体积所以不会显示的我宛如ZZ！ border也可以用来绘制三角形图案 通过分别设置四个边框的宽度和透明度即可达到效果 我理解的原理大概是 每条边其实都是相连的 当一条边的长度为0的时候，其相邻的两条边就会连接到其神展的原点，这样就自动形成了一个三角形；</p>
+<pre><code>/\* 正三角*/
+.abc1{
+    width:0px;
+    height:0px;
+    padding: 0px;
+    border: 1px solid #000;
+    border-width: 0 50px 50px 50px;
+    border-color:#333 transparent ;
+}
+/* 向右的三角*/
+.abc2{
+    width:0px;
+    height:0px;
+    padding: 0px;
+    border: 1px solid #000;
+    border-width:50px 0 50px 50px;
+    border-color:transparent #333;
+}
+/* 倒三角*/
+.abc3{
+    width:5px; height:5px; padding: 0px; 
+    background-color: aqua;
+    border: 1px solid #000;
+    border-width:50px 50px 0 50px;
+    border-color: #333  transparent;
+}
+/* 向左的三角*/
+.abc4{
+    width:0px; height:0px; padding: 0px;
+    border: 5px solid #000;
+    border-width:50px 50px 50px 0;
+    border-color: transparent #333;
+}
+&lt;/style&gt;</code></pre>
+<body>
+<div class="abc1"></div>
+<div class="abc2"></div>
+<div class="abc3"></div>
+<div class="abc4"></div>
+</body>
+
+                </div>
+            </article>
+
+
+            <div class="post-tags center">
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/css/">css</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/HTML/">HTML</a>
+                   </span>
+                
+            </div>
+
+
+            <div class="social-share" data-mobile-sites="weibo,qq,qzone,facebook,twitter">
+                <span id="share-to">Share to</span>
+            </div>
+
+            <div class="post-footer">
+                
+                    <a class="left" href="/2017/08/18/mi-chiamo-elsa-de-sica/" rel="prev" title="Mi chiamo Elsa de Sica">
+                        <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+                        <span>  Mi chiamo Elsa de Sica</span>
+                    </a>
+                
+                
+                    <a class="right" href="/2017/07/24/event-delegation/" rel="next" title="事件委托">
+                        事件委托<i class="fa fa-arrow-circle-right fa-3x "></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+<footer>
+    
+        <footer class="page-footer">
+    <div class="footer-copyright">
+        <div class="container">
+            <div>© 2017 Copyright John Doe
+                <span class="right">
+                powered by
+                <a href="http://hexo.io">hexo</a>.
+                theme:
+                <a href="https://github.com/jonashao/hexo-theme-pteris">pteris</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    
+</footer>
+
+    
+</footer>
+
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/materialize/dist/js/materialize.min.js"></script>
+<script src="/lib/headroom.js/dist/headroom.min.js"></script>
+<script src="/lib/headroom.js/dist/jQuery.headroom.min.js"></script>
+
+
+
+    <script src="/lib/social-share.js/dist/js/share.min.js"></script>
+
+
+
+<script src="/js/pteris.js"></script>
+
+
+    <script src="/lib/lightgallery.js/dist/js/lightgallery.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

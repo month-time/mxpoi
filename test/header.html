@@ -1,0 +1,226 @@
+<style>
+    #spy-header-section {
+        padding: 0;
+        position: fixed;
+        left: 0;
+        width: 100%;
+        z-index: 2;
+        background: rgba(40, 42, 44, .6)
+    }
+
+    #spy-header-section .sf-menu * {
+        list-style: none
+    }
+
+    #spy-header-section .sf-menu {
+        list-style: none;
+        margin: 0;
+        padding: 0
+    }
+
+    #spy-header-section .sf-menu ul {
+        display: flex;
+    }
+
+    #spy-header-section .sf-menu a {
+        color: #fff;
+        padding: 7px 18px;
+        font-weight: 400;
+        font-size: 15px;
+        border: none;
+        display: block
+    }
+
+    #spy-header-section .sf-menu li {
+        position: relative
+    }
+
+    #spy-header-section .sf-menu>li:hover {
+        background: rgba(120, 120, 120, .6)
+    }
+
+    #spy-header-section .sf-menu>li {
+        float: left;
+        transition-property: background-color;
+        transition-duration: .2s
+    }
+
+    #spy-header-section .sf-menu>li>a:hover {
+        color: #fff !important
+    }
+
+    #spy-header-section .sub-menu {
+        position: absolute;
+        display: none;
+        padding: 0;
+        background: rgba(93, 93, 93, .8);
+        min-width: 110px
+    }
+
+    #spy-header-section .sub-menu a {
+        letter-spacing: 0;
+        text-transform: none;
+        padding: 10px 15px !important;
+        line-height: 20px;
+        color: #fff !important
+    }
+
+    #spy-header-section .sub-menu a:hover {
+        background: #999
+    }
+
+    #spy-header-section .sub-menu li a {
+        text-align: center;
+        white-space: nowrap
+    }
+
+    #spy-header-section .sub-menu>li>.sub-menu {
+        left: 100%;
+        top: 0
+    }
+
+    #spy-header-section .nav-header {
+        position: relative;
+        float: left;
+        width: 100%
+    }
+
+    #spy-header-section.color-banner .sf-menu li:hover>ul {
+        display: block
+    }
+
+    #spy-header-section.color-banner .sf-menu>li>ul:after {
+        position: absolute;
+        top: -8px;
+        left: calc(50% - 7px);
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid #fff;
+        border-left: 8px solid transparent;
+        content: ''
+    }
+
+    #spy-header-section.color-banner .sub-menu {
+        background: #fff;
+        width: 110px;
+        left: calc(50% - 55px);
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .15);
+        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .15)
+    }
+
+    #spy-header-section.color-banner .sub-menu a {
+        color: #848484 !important;
+        padding: 10px 5px !important;
+        white-space: normal
+    }
+
+    #spy-header-section.color-banner .sub-menu a:hover {
+        background: #f2f2f2;
+        border-radius: 5px
+    }
+
+</style>
+
+<div id="spy-header">
+    <header id="spy-header-section">
+        <div class="container">
+            <div class="nav-header">
+                <nav id="spy-primary-menu" class="sf-menu">
+                    <ul>
+                        <li class=""><a href="http://mxpoi.com/?page_id=2">关于</a></li>
+                        <li class=""><a href="http://mxpoi.com/?page_id=189">友情链接</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+</div>
+
+
+
+<style>
+    .spy-cover,
+    .spy-start {
+        position: relative;
+        height: 55px;
+        height: 320px;
+    }
+
+    .spy-overlay {
+        position: absolute !important;
+        width: 100%;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 1;
+        background: rgba(66, 64, 64, .2)
+    }
+
+    .spy-cover {
+        background-size: cover;
+        position: relative;
+        background-position: center center;
+        text-align: center;
+        height: 320px
+    }
+
+    .spy-cover .btn {
+        padding: 1em 5em;
+        opacity: .9;
+    }
+
+    .spy-cover .desc {
+        top: 50%;
+        position: absolute;
+        width: 100%;
+        margin-top: -50px;
+        z-index: 2;
+        color: #fff;
+        text-shadow: 2px 2px 2px #666
+    }
+
+    .spy-cover .desc h2 {
+        color: #fff;
+        text-transform: none;
+        font-size: 40px;
+        display: inline-block
+    }
+
+    .spy-cover .desc p,
+    .spy-cover .desc span {
+        color: #fff;
+        margin-bottom: 30px;
+        font-size: 25px;
+        letter-spacing: 1px;
+        display: inline-block
+    }
+
+    .spy-cover .desc span a {
+        color: #fff
+    }
+
+    .spy-cover .desc span a:focus,
+    .spy-cover .desc span a:hover {
+        color: #fff !important
+    }
+
+    .spy-cover .desc span a:focus.btn,
+    .spy-cover .desc span a:hover.btn {
+        border: 2px solid #fff !important;
+        background: 0 0 !important
+    }
+</style>
+
+<div class="spy-start spy-hero-2">
+    <div class="spy-overlay"></div>
+    <div class="spy-cover text-center">
+        <div class="desc animate-box">
+            <a href="http://mxpoi.com">
+                <h2>月時紀‘s Blog</h2>
+                <br>
+                <span>没有什么卵用的网站</span>
+            </a>
+        </div>
+    </div>
+</div>

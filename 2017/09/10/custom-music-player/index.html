@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="theme-color" content="#93b658">
+    <title>利用web API 制作拥有音轨特效的自定义播放器 | Hexo </title>
+
+    
+        <meta name="keywords" content=",,,,">
+        
+
+    
+    <meta name="description" content="起初因为一个项目需求 需要一个音乐播放器，实现起来还是很简单的。 而且HTML5新定义下的audio标签在各个浏览器下渲染的还算扁平化。嗯，扁平化…. 这里就不多说如何自定义播放器控件了,主要讲...">
+
+    
+
+    
+
+    
+
+    
+        <link rel="stylesheet" href="/lib/social-share.js/dist/css/share.min.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/lib/materialize/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="/lib/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/css/post/atom-one-light.css">
+    <link rel="stylesheet" href="/css/pteris.css">
+
+
+    
+        <link rel="stylesheet" href="/css/post.css">
+    
+
+    
+        <link rel="stylesheet" href="/lib/lightgallery.js/dist/css/lightgallery.min.css">
+    
+
+    
+</head>
+
+<body>
+
+<header>
+    
+        <div class="header-fixed">
+    <nav class="white lime-text lighten-1 " role="navigation">
+        <div class="nav-wrapper container">
+            <div id="logo-container">
+                <a href="/">
+                    
+                    <span class="brand-logo">Hexo</span>
+                </a>
+            </div>
+
+            <ul class="right hide-on-med-and-down">
+                
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse">
+                <i class="fa fa-bars green-text"></i></a>
+        </div>
+    </nav>
+</div>
+
+<ul id="nav-mobile" class="side-nav">
+    
+</ul>
+
+
+
+    
+</header>
+
+<main>
+    
+
+    <div id="post">
+        <div class="container">
+            <div id="post-header" class="center">
+                <h1 class="center">利用web API 制作拥有音轨特效的自定义播放器</h1>
+                <span class="post-date center">
+                    <i class="fa fa-calendar"></i>
+                    <time datetime="2017-09-10T15:07:04.000Z">
+                        2017-09-10
+                    </time>
+                </span>
+
+                
+
+                
+                    <div class="post-gallery">
+                        <div id="lightgallery">
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            <article>
+                <div class="content">
+                    
+    <p>起初因为一个项目需求 需要一个音乐播放器，实现起来还是很简单的。 而且HTML5新定义下的audio标签在各个浏览器下渲染的还算扁平化。嗯，扁平化…. 这里就不多说如何自定义播放器控件了,主要讲讲 如何使用web API下的 AudioContext对象解析音频流制作音频特效； <img src="https://test.voide.cc/demo/audio/text_img.png" alt>  AudioContext 是H5下定义的一个新的Audio API和我们常用的 Audio 还是有区别的。 页面上的Audio标签只是HTML5更语义化的一个表现，而HTML5提供给JavaScript编程用的Audio API则让我们有能力在代码中直接操作原始的音频流数据，对其进行任意加工再造，做一个在线的调音器也是可以的。 这里的参考内容主要来自  <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/AudioContext" target="_blank" rel="noopener">AudioContext - Web API 接口 | MDN</a></p>
+<h3 id="了解Audio-API"><a href="#了解Audio-API" class="headerlink" title="了解Audio API"></a>了解Audio API</h3><p>Web Audio API使用户可以在<strong>音频上下文</strong>中进行音频操作，并且它被设计为允许<strong>模块化路由</strong>。基础的音频操作在<strong>音频节点</strong>上进行， 它们连接在一起构成<strong>音频路由图</strong>。即使在单个上下文中也支持多源，尽管这些音频源具有多种不同类型通道布局。这种模块化设计提供了灵活地创建具有动态效果的复合音频的方法。   一个简单而典型的web audio流程如下：</p>
+<ol>
+<li>创建音频上下文</li>
+<li>在音频上下文里创建源 — 例如 , 振荡器, 流</li>
+<li>创建效果节点，例如混响、双二阶滤波器、平移、压缩</li>
+<li>为音频选择一个目地，例如你的系统扬声器</li>
+<li>连接源到效果器，以及效果器和目地</li>
+</ol>
+<p><img src="https://mdn.mozillademos.org/files/12241/webaudioAPI_en.svg" alt="A simple box diagram with an outer box labeled Audio context, and three inner boxes labeled Sources, Effects and Destination. The three inner boxes have arrow between them pointing from left to right, indicating the flow of audio information."> 使用这个API，时间可以被非常精确地控制，几乎没有延迟，这样开发人员可以准确地响应事件，并且可以针对采样数据进行编程，甚至是较高的采样率。这样，鼓点和节拍是准确无误的。</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>我们通过将音频数据流截获下来并发送到一个叫做<strong><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/AudioContext" title="AudioContext接口表示由音频模块连接而成的音频处理图，每个模块对应一个AudioNode。AudioContext可以控制它所包含的节点的创建，以及音频处理、解码操作的执行。做任何事情之前都要先创建AudioContext对象，因为一切都发生在这个环境之中。" target="_blank" rel="noopener"><code>AudioContext</code></a> **的对象当中解析</strong>（<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/AudioBuffer" title="这些类型对象被设计来控制小音频片段，往往短于45秒。对于更长的声音，通过 MediaElementAudioSourceNode来实现更为合适。缓存区（buffer）包含以下数据：不间断的IEEE75432位线性PCM，从-1到1的范围额定，就是说，32位的浮点缓存区的每个样本在-1.0到1.0之间。如果AudioBuffer有不同的频道，他们通常被曝存在独立的缓存区。" target="_blank" rel="noopener"><code>AudioBuffer</code></a>）** 将音频流分解成若干个节点<strong>(<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/AudioNode" title="AudioNode 接口是一个处理音频的通用模块, 比如一个音频源 (e.g. 一个 HTML &lt;audio&gt; or &lt;video&gt; 元素), 一个音频地址或者一个中间处理模块 (e.g. 一个过滤器如 BiquadFilterNode, 或一个音量控制器如 GainNode)." target="_blank" rel="noopener"><code>AudioNode</code></a> )</strong> ，接着连接每一个节点获取其中音频流的最高点和最低点，将其存入数组，最后通过<strong>（<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/AudioBuffer/getChannelData" title="此页面仍未被本地化, 期待您的翻译!" target="_blank" rel="noopener"><code>AudioBuffer.getChannelData()</code></a>）</strong>方法将其返回成一个 (<strong><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Float32Array" title="Float32Array 类型数组代表的是平台字节顺序为32位的浮点数型数组(对应于 C 浮点数据类型) 。 如果需要控制字节顺序， 使用 DataView 替代。其内容初始化为0。一旦建立起来，你可以使用这个对象的方法对其元素进行操作，或者使用标准数组索引语法 (使用方括号)。" target="_blank" rel="noopener"><code>Float32Array</code></a> 包含了带有频道的PCM数据，由频道参数定义</strong>)接着转换成我们需要的傅里叶函数。这样我们就获得了每一个时间段音频高度的频谱了。接着操作就很简单 只需要将频谱与我们的动画绑定，和音乐同步播放即可。</p>
+<h3 id="具体实现方法"><a href="#具体实现方法" class="headerlink" title="具体实现方法"></a>具体实现方法</h3><p>//    创建AudioContext对象，<br>var audioCtx = new (window.AudioContext || window.webkitAudioContext)();<br>//    创建音频处理节点，<br>var analyser = audioCtx.createAnalyser();<br>//    连接到页面音频元素<br>var Music=document.getElementById(“Music”);<br>source = audioCtx.createMediaElementSource(Music);<br>//    将处理节点连接到声源对象：<br>source.connect(analyser);<br>analyser.connect(audioCtx.destination);<br>//    设置傅里叶波形函数尺寸,min:32,max:2048,<br>analyser.fftSize = 64;<br>//    获取长度参数<br>var bufferLength = analyser.frequencyBinCount;<br>//    创建Uint8类型数组<br>var dataArray = new Uint8Array(bufferLength);<br>//    获取数据并存入数组<br>analyser.getByteTimeDomainData(dataArray);</p>
+<p>  在这里为了简单处理我直接将页面上的<strong>audio元素</strong>绑定到<strong>AudioContext</strong>对象上了，当然大家也可以直接通过<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank" rel="noopener">XMLHttpRequest</a>获取音频流，或者监听麦克风。 最后获取的dataArray是实时音频帧波频信息。 然后我们只需要再写一个函数动态刷新这个数组，并将这个数组内的信息赋予到音频动画上即可</p>
+<p>//帧播放计时器<br>drawVisual = requestAnimationFrame(setime);<br>function setime(){<br>//    每刷新一帧就重新获取一次频谱<br>    analyser.getByteTimeDomainData(dataArray);<br>    var aix_box=document.getElementsByClassName(“aix_box”)[0];<br>    aix_box.innerHTML=””;<br>    create();<br>}<br>//动态生成频谱动画<br>function create(){<br>    for(var i=0;i&lt;=32;i++){<br>    var aix=document.createElement(“div”);<br>    aix.setAttribute(“class”,”aix”);<br>    aix.setAttribute(“style”,”height:”+(dataArray[i]-128)+”px”);<br>    var aix_box=document.getElementsByClassName(“aix_box”)[0];<br>    aix_box.appendChild(aix);<br>}<br>}</p>
+<p>这里只是简单的使用动态添加删除dom元素达到动画效果，有兴趣的朋友也可以使用canvas画波频图； 这里是我写的一个预览：<a href="http://test.voide.cc/demo/audio/" target="_blank" rel="noopener"><strong>demo</strong></a></p>
+<h3 id="浏览器中的Audio-API"><a href="#浏览器中的Audio-API" class="headerlink" title="浏览器中的Audio API"></a>浏览器中的Audio API</h3><p>目前绝大多数浏览器的最新版本都已经内部封装了 Web API的实现方法 Chrome中为window.webkitAudioContext，Firefox中为mozAudioContext,    Edge中直接使用window.AudioContext 即可。当然为了保证兼容性和意外问题我们可以这么写:</p>
+<p>try {<br>    var audioContext = new (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext)();<br>} catch (e) {<br>    Console.log(‘!Your browser does not support AudioContext’);<br>}</p>
+
+
+                </div>
+            </article>
+
+
+            <div class="post-tags center">
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/HTML/">HTML</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/js/">js</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/HTML5/">HTML5</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/web-api/">web api</a>
+                   </span>
+                
+            </div>
+
+
+            <div class="social-share" data-mobile-sites="weibo,qq,qzone,facebook,twitter">
+                <span id="share-to">Share to</span>
+            </div>
+
+            <div class="post-footer">
+                
+                    <a class="left" href="/2018/04/17/e5-8e-9f-e7-94-9f-javascript-e5-88-b6-e4-bd-9crpg-e5-b0-8f-e6-b8-b8-e6-88-8f-e5-9c-b0-e5-9b-be-e7-bc-96-e8-be-91-e5-99-a8/" rel="prev" title="原生 javascript 制作RPG小游戏 地图编辑器">
+                        <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+                        <span>  原生 javascript 制作RPG小游戏 地图编辑器</span>
+                    </a>
+                
+                
+                    <a class="right" href="/2017/08/18/mi-chiamo-elsa-de-sica/" rel="next" title="Mi chiamo Elsa de Sica">
+                        Mi chiamo Elsa de Sica<i class="fa fa-arrow-circle-right fa-3x "></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+<footer>
+    
+        <footer class="page-footer">
+    <div class="footer-copyright">
+        <div class="container">
+            <div>© 2017 Copyright John Doe
+                <span class="right">
+                powered by
+                <a href="http://hexo.io">hexo</a>.
+                theme:
+                <a href="https://github.com/jonashao/hexo-theme-pteris">pteris</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    
+</footer>
+
+    
+</footer>
+
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/materialize/dist/js/materialize.min.js"></script>
+<script src="/lib/headroom.js/dist/headroom.min.js"></script>
+<script src="/lib/headroom.js/dist/jQuery.headroom.min.js"></script>
+
+
+
+    <script src="/lib/social-share.js/dist/js/share.min.js"></script>
+
+
+
+<script src="/js/pteris.js"></script>
+
+
+    <script src="/lib/lightgallery.js/dist/js/lightgallery.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

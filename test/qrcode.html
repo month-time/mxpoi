@@ -1,0 +1,86 @@
+<script type="text/javascript">
+/* 
+   how use
+    生成二维码链接 host+get参数 @appkey
+    @href url?appkey = @appkey; 
+*/
+
+    var app_list = [
+        {
+            appkey:"ydzc",
+            appname:"移动仲裁",
+            ard_url:"https://www.pgyer.com/whlr",
+            ios_url:"https://itunes.apple.com/us/app/%E7%A7%BB%E5%8A%A8%E4%BB%B2%E8%A3%81/id1249163968?l=zh&ls=1&mt=8",
+        },
+        {
+            appkey:"ydzczyb",
+            appname:"移动仲裁（专业版）",
+            ard_url:"https://www.pgyer.com/k3Gt",
+            ios_url:"https://itunes.apple.com/us/app/%E7%A7%BB%E5%8A%A8%E4%BB%B2%E8%A3%81-%E4%B8%93%E4%B8%9A%E7%89%88/id1449820247?l=zh&ls=1&mt=8",
+        },
+        {
+            appkey:"yjsshb",
+            appname:"易驹所（商户版)",
+            ard_url:"https://www.pgyer.com/Y85g",
+            ios_url:"https://itunes.apple.com/cn/app/%E6%98%93%E9%A9%B9%E6%89%80%E4%BA%8C%E6%89%8B%E8%BD%A6/id1137863184?mt=8",
+        },
+        {
+            appkey:"yjsscb",
+            appname:"易驹所（市场版）保定检测线OA",
+            ard_url:"https://www.pgyer.com/NGok",
+            ios_url:"https://fir.im/qar9",
+        },
+        {
+            appkey:"dhx",
+            appname:"稻花香",
+            ard_url:"https://www.pgyer.com/Pfrp",
+            ios_url:"#",
+        },
+        {
+            appkey:"yyzs",
+            appname:"光外英语助手",
+            ard_url:"https://www.pgyer.com/GofH",
+            ios_url:"https://itunes.apple.com/cn/app/%E5%85%89%E5%A4%96%E8%8B%B1%E8%AF%AD%E5%8A%A9%E6%89%8B/id1435569434?mt=8",
+        },
+    ]
+    
+    var u = navigator.userAgent;
+    //android终端
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+    //ios终端
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+    //
+    var appkey = getPar("appkey");
+    
+    for(var i=0;i<app_list.length;i++){
+        if(app_list[i].appkey == appkey){
+            if (isAndroid == true) {
+                window.location.href = app_list[i].ard_url;
+            } else if (isiOS == true) {
+                window.location.href = app_list[i].ios_url;
+            }
+        }
+    }
+
+    //setTimeout(function(){
+      //  alert("未找到设备所支持的app,请联系相关客服");
+    //},3000)
+
+    function getPar(par) {
+        //获取当前URL
+        var local_url = document.location.href;
+        //获取要取得的get参数位置
+        var get = local_url.indexOf(par + "=");
+        if (get == -1) {
+            return false;
+        }
+        //截取字符串
+        var get_par = local_url.slice(par.length + get + 1);
+        //判断截取后的字符串是否还有其他get参数
+        var nextPar = get_par.indexOf("&");
+        if (nextPar != -1) {
+            get_par = get_par.slice(0, nextPar);
+        }
+        return get_par;
+    }
+</script>

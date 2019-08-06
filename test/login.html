@@ -1,0 +1,49 @@
+<body class="login login-action-login wp-core-ui  locale-zh-cn">
+    <link rel="stylesheet" href="./static/css/login.css">
+
+    <div id="login">
+        <h1><a title="基于WordPress" tabindex="-1">基于WordPress</a></h1>
+
+        <form name="loginform" id="loginform" action="" method="post">
+            <p>
+                <label for="user_login">用户名或电子邮件地址<br>
+                    <input type="text" name="log" id="user_login" class="input" value="" size="20"></label>
+            </p>
+            <p>
+                <label for="user_pass">密码<br>
+                    <input type="password" name="pwd" id="user_pass" class="input" value="" size="20"></label>
+            </p>
+            <p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever"> 记住我的登录信息</label></p>
+            <p class="submit">
+                <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="登录">
+                <input type="hidden" name="redirect_to" value="http://192.168.114.189:233/wp-admin/">
+                <input type="hidden" name="testcookie" value="1">
+            </p>
+        </form>
+
+        <p id="nav">
+            <a>忘记密码？</a>
+        </p>
+
+        <script type="text/javascript">
+            function wp_attempt_focus() {
+                setTimeout(function() {
+                    try {
+                        d = document.getElementById('user_login');
+                        d.focus();
+                        d.select();
+                    } catch (e) {}
+                }, 200);
+            }
+            wp_attempt_focus();
+        </script>
+
+        <p id="backtoblog"><a >← 返回到武汉仲裁委员会互联网仲裁院</a></p>
+
+    </div>
+
+
+    <div class="clear"></div>
+
+
+</body>

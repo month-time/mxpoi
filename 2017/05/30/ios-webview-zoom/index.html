@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="theme-color" content="#93b658">
+    <title>ios 页面缩放 失效问题 | Hexo </title>
+
+    
+        <meta name="keywords" content=",,,">
+        
+
+    
+    <meta name="description" content="
+
+ios 更新到10版本后，为了提高Safari中网站的辅助功能，即使网站在视口中设置了user-scalable = no，用户也可以手动缩放。 目前我们可以通过设置监听器 阻止浏览器默认事...">
+
+    
+
+    
+
+    
+
+    
+        <link rel="stylesheet" href="/lib/social-share.js/dist/css/share.min.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/lib/materialize/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="/lib/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/css/post/atom-one-light.css">
+    <link rel="stylesheet" href="/css/pteris.css">
+
+
+    
+        <link rel="stylesheet" href="/css/post.css">
+    
+
+    
+        <link rel="stylesheet" href="/lib/lightgallery.js/dist/css/lightgallery.min.css">
+    
+
+    
+</head>
+
+<body>
+
+<header>
+    
+        <div class="header-fixed">
+    <nav class="white lime-text lighten-1 " role="navigation">
+        <div class="nav-wrapper container">
+            <div id="logo-container">
+                <a href="/">
+                    
+                    <span class="brand-logo">Hexo</span>
+                </a>
+            </div>
+
+            <ul class="right hide-on-med-and-down">
+                
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse">
+                <i class="fa fa-bars green-text"></i></a>
+        </div>
+    </nav>
+</div>
+
+<ul id="nav-mobile" class="side-nav">
+    
+</ul>
+
+
+
+    
+</header>
+
+<main>
+    
+
+    <div id="post">
+        <div class="container">
+            <div id="post-header" class="center">
+                <h1 class="center">ios 页面缩放 失效问题</h1>
+                <span class="post-date center">
+                    <i class="fa fa-calendar"></i>
+                    <time datetime="2017-05-30T03:41:42.000Z">
+                        2017-05-30
+                    </time>
+                </span>
+
+                
+
+                
+                    <div class="post-gallery">
+                        <div id="lightgallery">
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            <article>
+                <div class="content">
+                    
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+
+<p>ios 更新到10版本后，为了提高Safari中网站的辅助功能，即使网站在视口中设置了user-scalable = no，用户也可以手动缩放。 目前我们可以通过设置监听器 阻止浏览器默认事件来阻止用户缩放网页，但是可能会导致一些无法预料的错误异常 ，</p>
+<p>window.onload=function () {<br>        document.addEventListener(‘touchstart’,function (event) {<br>            if(event.touches.length&gt;1){<br>                event.preventDefault();<br>            }<br>        })<br>        var lastTouchEnd=0;<br>        document.addEventListener(‘touchend’,function (event) {<br>            var now=(new Date()).getTime();<br>            if(now-lastTouchEnd&lt;=300){<br>                event.preventDefault();<br>            }<br>            lastTouchEnd=now;<br>        },false)<br>}</p>
+<p>但是在字体小于16px，聚焦到表单时 页面依旧有概率被 放大 不过我们可以：</p>
+<ol>
+<li>在父级添加一个 onClick监听器 。</li>
+<li>在CSS集中添加一个<code>cursor: pointer;</code></li>
+</ol>
+<p>使用户在双击或者聚焦到表单元素时不触发缩放功能 <a href="https://stackoverflow.com/questions/37808180/disable-viewport-zooming-ios-10-safari" target="_blank" rel="noopener">相关文档:stackoverflow.com/questions/37808180/disable-viewport-zooming-ios-10-safari</a></p>
+
+
+                </div>
+            </article>
+
+
+            <div class="post-tags center">
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/css/">css</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/HTML/">HTML</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/HTML5/">HTML5</a>
+                   </span>
+                
+            </div>
+
+
+            <div class="social-share" data-mobile-sites="weibo,qq,qzone,facebook,twitter">
+                <span id="share-to">Share to</span>
+            </div>
+
+            <div class="post-footer">
+                
+                    <a class="left" href="/2017/06/06/form-valida-get-analysis/" rel="prev" title="关于表单验证以及get请求内容的解析与使用">
+                        <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+                        <span>  关于表单验证以及get请求内容的解析与使用</span>
+                    </a>
+                
+                
+                    <a class="right" href="/2017/04/13/ios-number-display-exception/" rel="next" title="ios  上 数字 显示 异常问题">
+                        ios  上 数字 显示 异常问题<i class="fa fa-arrow-circle-right fa-3x "></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+<footer>
+    
+        <footer class="page-footer">
+    <div class="footer-copyright">
+        <div class="container">
+            <div>© 2017 Copyright John Doe
+                <span class="right">
+                powered by
+                <a href="http://hexo.io">hexo</a>.
+                theme:
+                <a href="https://github.com/jonashao/hexo-theme-pteris">pteris</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    
+</footer>
+
+    
+</footer>
+
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/materialize/dist/js/materialize.min.js"></script>
+<script src="/lib/headroom.js/dist/headroom.min.js"></script>
+<script src="/lib/headroom.js/dist/jQuery.headroom.min.js"></script>
+
+
+
+    <script src="/lib/social-share.js/dist/js/share.min.js"></script>
+
+
+
+<script src="/js/pteris.js"></script>
+
+
+    <script src="/lib/lightgallery.js/dist/js/lightgallery.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

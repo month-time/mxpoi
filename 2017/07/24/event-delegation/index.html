@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="theme-color" content="#93b658">
+    <title>事件委托 | Hexo </title>
+
+    
+        <meta name="keywords" content=",,">
+        
+
+    
+    <meta name="description" content="  对“事件处理程序过多”问题的解决方案就是事件委托。 在JavaScript中，添加到页面上的事件处理程序数量将直接关系到页面的整体运行性能。导致这一问题的原因是多方面的。首先，每个函数都是对...">
+
+    
+
+    
+
+    
+
+    
+        <link rel="stylesheet" href="/lib/social-share.js/dist/css/share.min.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/lib/materialize/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="/lib/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/css/post/atom-one-light.css">
+    <link rel="stylesheet" href="/css/pteris.css">
+
+
+    
+        <link rel="stylesheet" href="/css/post.css">
+    
+
+    
+        <link rel="stylesheet" href="/lib/lightgallery.js/dist/css/lightgallery.min.css">
+    
+
+    
+</head>
+
+<body>
+
+<header>
+    
+        <div class="header-fixed">
+    <nav class="white lime-text lighten-1 " role="navigation">
+        <div class="nav-wrapper container">
+            <div id="logo-container">
+                <a href="/">
+                    
+                    <span class="brand-logo">Hexo</span>
+                </a>
+            </div>
+
+            <ul class="right hide-on-med-and-down">
+                
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse">
+                <i class="fa fa-bars green-text"></i></a>
+        </div>
+    </nav>
+</div>
+
+<ul id="nav-mobile" class="side-nav">
+    
+</ul>
+
+
+
+    
+</header>
+
+<main>
+    
+
+    <div id="post">
+        <div class="container">
+            <div id="post-header" class="center">
+                <h1 class="center">事件委托</h1>
+                <span class="post-date center">
+                    <i class="fa fa-calendar"></i>
+                    <time datetime="2017-07-24T11:30:31.000Z">
+                        2017-07-24
+                    </time>
+                </span>
+
+                
+
+                
+                    <div class="post-gallery">
+                        <div id="lightgallery">
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            <article>
+                <div class="content">
+                    
+    <p>  对“事件处理程序过多”问题的解决方案就是事件委托。 在JavaScript中，添加到页面上的事件处理程序数量将直接关系到页面的整体运行性能。导致这一问题的原因是多方面的。首先，每个函数都是对象，都会占用内存；内存中的对象越多，性能就越差。其次，必须事先指定所有事件处理程序而导致的DOM访问次数，会延迟整个页面的交互就绪时间。 一个dom事件分为三个阶段： <strong>1.捕获阶段</strong>：先由文档的根节点document往事件触发对象，从外向内捕获事件对象； <strong>2.目标阶段</strong>：到达目标事件位置（事发地），触发事件； <strong>3.冒泡阶段</strong>：再从目标事件位置往文档的根节点方向回溯，从内向外冒泡事件对象。 当事件发生后，这个事件就要开始传播(从里到外【冒泡】或者从外向里【捕获】)。为什么要传播呢？因为事件源本身（可能）并没有处理事件的能力，即处理事件的函数（方法）并未绑定在该事件源上。 传统的方法一般是 先将指定的元素添加到文本流中然后再通过调用手动给每个元素绑定指定的事件，这样会因为生成的事件对象太多而占用大量内存，导致网页性能下降。</p>
+<body>
+<div id="div">
+    <p>qwewqe</p>
+    <p>qwe2323wqe</p>
+    <p>q3543654757wewqe</p>
+    <p>qwe$#$wqe</p>
+    <p>qw!@!</p>
+    <p>12345wqe</p>
+    <p>qwe6789!!$%%e</p>
+    <p>qwe@$*({e</p>
+    <p>qw$%^%qe</p>
+    <p>qwew$%$^qe</p>
+</div>
+</body>
+<script>
+window.onload = function(){
+  var _div = document.getElementById("div");
+  var \_p = \_div.getElementsByTagName("p");
+  for(var i=0;i<_p.length;i++){
+      _p\[i\].onclick=function(e){
+          var e = e || window.event;
+          var target = e.target || e.srcElement;
+          console.log(target);
+          alert(target.innerHTML);
+      }
+  }
+}
+</script>
+
+<p>  而事件委托利用了事件冒泡，只指定一个事件处理程序，就可以管理某一类型的所有事件。例如，click事件会一直冒泡到document层次。也就是说，我们可以为整个页面指定一个onclick事件处理程序，而不必给每个可单击的元素分别添加事件处理程序。</p>
+<p>window.onload = function(){<br>  var _div = document.getElementById(“div”);<br>  var _p = _div.getElementsByTagName(“p”);<br>  _div.onclick = function(e){<br>    var e = e || window.event;<br>    var target = e.target || e.srcElement;<br>      console.log(target);<br>    alert(target.innerHTML);<br>  }<br>}</p>
+
+
+                </div>
+            </article>
+
+
+            <div class="post-tags center">
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/HTML/">HTML</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/js/">js</a>
+                   </span>
+                
+            </div>
+
+
+            <div class="social-share" data-mobile-sites="weibo,qq,qzone,facebook,twitter">
+                <span id="share-to">Share to</span>
+            </div>
+
+            <div class="post-footer">
+                
+                    <a class="left" href="/2017/08/04/about-border-attribute/" rel="prev" title="关于border属性">
+                        <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+                        <span>  关于border属性</span>
+                    </a>
+                
+                
+                    <a class="right" href="/2017/07/10/custom-input-number/" rel="next" title="自定义  input  number  元素">
+                        自定义  input  number  元素<i class="fa fa-arrow-circle-right fa-3x "></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+<footer>
+    
+        <footer class="page-footer">
+    <div class="footer-copyright">
+        <div class="container">
+            <div>© 2017 Copyright John Doe
+                <span class="right">
+                powered by
+                <a href="http://hexo.io">hexo</a>.
+                theme:
+                <a href="https://github.com/jonashao/hexo-theme-pteris">pteris</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    
+</footer>
+
+    
+</footer>
+
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/materialize/dist/js/materialize.min.js"></script>
+<script src="/lib/headroom.js/dist/headroom.min.js"></script>
+<script src="/lib/headroom.js/dist/jQuery.headroom.min.js"></script>
+
+
+
+    <script src="/lib/social-share.js/dist/js/share.min.js"></script>
+
+
+
+<script src="/js/pteris.js"></script>
+
+
+    <script src="/lib/lightgallery.js/dist/js/lightgallery.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

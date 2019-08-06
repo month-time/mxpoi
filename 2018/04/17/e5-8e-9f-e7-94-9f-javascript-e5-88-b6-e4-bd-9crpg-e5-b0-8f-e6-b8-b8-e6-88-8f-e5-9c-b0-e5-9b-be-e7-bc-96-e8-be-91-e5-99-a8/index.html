@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="theme-color" content="#93b658">
+    <title>原生 javascript 制作RPG小游戏 地图编辑器 | Hexo </title>
+
+    
+        <meta name="keywords" content=",,,,,">
+        
+
+    
+    <meta name="description" content="虽然现在有着各种游戏制作工具，做游戏的效率越来越高，但是一直用工具制作没啥实感。 所以勃主准备用原生JavaScript来写一个简单的rpg小游戏 ♪(^∇^*) 这里有我已经写好的demo地址...">
+
+    
+
+    
+
+    
+
+    
+        <link rel="stylesheet" href="/lib/social-share.js/dist/css/share.min.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/lib/materialize/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="/lib/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/css/post/atom-one-light.css">
+    <link rel="stylesheet" href="/css/pteris.css">
+
+
+    
+        <link rel="stylesheet" href="/css/post.css">
+    
+
+    
+        <link rel="stylesheet" href="/lib/lightgallery.js/dist/css/lightgallery.min.css">
+    
+
+    
+</head>
+
+<body>
+
+<header>
+    
+        <div class="header-fixed">
+    <nav class="white lime-text lighten-1 " role="navigation">
+        <div class="nav-wrapper container">
+            <div id="logo-container">
+                <a href="/">
+                    
+                    <span class="brand-logo">Hexo</span>
+                </a>
+            </div>
+
+            <ul class="right hide-on-med-and-down">
+                
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse">
+                <i class="fa fa-bars green-text"></i></a>
+        </div>
+    </nav>
+</div>
+
+<ul id="nav-mobile" class="side-nav">
+    
+</ul>
+
+
+
+    
+</header>
+
+<main>
+    
+
+    <div id="post">
+        <div class="container">
+            <div id="post-header" class="center">
+                <h1 class="center">原生 javascript 制作RPG小游戏 地图编辑器</h1>
+                <span class="post-date center">
+                    <i class="fa fa-calendar"></i>
+                    <time datetime="2018-04-17T05:52:38.000Z">
+                        2018-04-17
+                    </time>
+                </span>
+
+                
+
+                
+                    <div class="post-gallery">
+                        <div id="lightgallery">
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            <article>
+                <div class="content">
+                    
+    <p>虽然现在有着各种游戏制作工具，做游戏的效率越来越高，但是一直用工具制作没啥实感。 所以勃主准备用原生JavaScript来写一个简单的rpg小游戏 ♪(^∇^*) 这里有我已经写好的<a href="https://month-time.github.io/small_RPG_Games/get_map.html" target="_blank" rel="noopener">demo地址</a> <img src="https://blog.voide.cc/wp-content/uploads/2018/04/YLAETB931@WFMGCKP-300x197.png" alt> 嗯，下面开始正题。  说到RPG游戏，首先想到的是现在市面上各种各类的3D巨作，可这些是我这种菜鸟暂时无法企及的，所以呢，目标就定为2D的RPG游戏了. 一想到2D的RPG游戏，就想到steam上各种用rpgmark制作的精美小游戏了。 这些不同的小方块组成了游戏的地图，因为他们的上下左右都是对齐的，这样我们自然的就想到了用一种熟悉的数据结构来在游戏内部表示和储存它，那便是二维数组。我们用二维数组的位置i,j来确定小方块在地图中的坐标位置，而二维数组中元素的值便用来代表这一格元素的类型，例如用0来代表草地，用1来代表石头等等… 这样选择好游戏的基本数据结构之后，我们首先想象我们的游戏已经完成，打开游戏程序后要进行的第一件事便是出现游戏的窗体，也就是说第一件事就是得载入游戏的地图，所以做这个游戏第一步便是在游戏开始之前就要编辑好一个二维数组，这个二维数组就是游戏的地图。 这个数组我们不可能凭空去给他赋值，所以就需要一个图形化界面来让我们方便的去设置数组中的值： 这便是这次的任务，做一个瓷砖地图编辑器，编辑完之后保存一个二维数组到一个文件中，以后写的游戏程序就能直接调用那个保存好的地图文件来载入地图了。 由于是自己写的编辑器，就可以按自己的需求来配置这个地图编辑器的内容了 基本页面 元素结构</p>
+<div style="width:800px;height:600px;overflow: auto;float: left;">
+<canvas id="myCanvas">
+     your browser doesn't support canvas!
+</canvas>
+</div>
+<div class="gallery" style="float: left;">
+    <ul>
+        <li><input name="Source" checked type="radio" value="0"></li>
+        <li><input name="Source" type="radio" value="1"></li>
+        <li><input name="Source" type="radio" value="100"></li>
+        <li><input name="Source" type="radio" value="101"></li>
+        <li><input name="Source" type="radio" value="102"></li>
+    </ul>
+
+<pre><code>&lt;select name=&quot;&quot; id=&quot;&quot;&gt;
+    &lt;option value=&quot;0&quot;&gt;背景层&lt;/option&gt;
+    &lt;option value=&quot;1&quot;&gt;碰撞层&lt;/option&gt;
+    &lt;option value=&quot;2&quot;&gt;遮罩层&lt;/option&gt;
+&lt;/select&gt;</code></pre></div>
+
+<p>  首先创建地图的基本信息和载入素材数据   这里我生成了一个40*40的方形基础地图，其中地图信息中的三个数组分别代表了 背景层：也就是可站立的图块区域、 碰撞层：就是阻挡物、 事件层：有些是可以穿过的 所以需要和碰撞层区分开………</p>
+<p>//    创建基本地图信息<br>    var maps={<br>        bg:new Array(),<br>        decorate:new Array(),<br>        npc:new Array(),<br>    }<br>    for(var i=0;i&lt;40;i++){<br>        maps.bg[i]=new Array();<br>        for(var u=0;u&lt;40;u++){<br>            maps.bg[i][u]=0;<br>        }<br>    }<br>    for(var i=0;i&lt;40;i++){<br>        maps.decorate[i]=new Array();<br>        for(var u=0;u&lt;40;u++){<br>            maps.decorate[i][u]=0;<br>        }<br>    }<br>    for(var i=0;i&lt;40;i++){<br>        maps.npc[i]=new Array();<br>        for(var u=0;u&lt;40;u++){<br>            maps.npc[i][u]=0;<br>        }<br>    }</p>
+<p>//    载入素材数据<br>    var image=[]<br>    image[0]=new Image();<br>    image[1]=new Image();<br>    image[100]=new Image();<br>    image[101]=new Image();<br>    image[102]=new Image();<br>    image[0].src=”./img/001草地.png”;<br>    image[1].src=”./img/002地砖.png”;<br>    image[100].src=”./img/100红树.png”;<br>    image[101].src=”./img/101绿树.png”;<br>    image[102].src=”./img/102高绿树.png”;</p>
+<p>接下来便是写一个窗口来实现上面的地图配置，这里我利用canvas用来作为我们设置地图的窗口。</p>
+<p>//    生成画布<br>    var canvas=document.getElementById(‘myCanvas’);<br>    var C_width =2000;<br>    var C_height =2000;<br>    canvas.width = C_width;<br>    canvas.height = C_height;<br>    var context = canvas.getContext(‘2d’);</p>
+<p>//    监听画布点击，设置地图<br>    canvas.onmousedown=function(e){<br>        var e=e||window.Event;<br>        var rect = canvas.getBoundingClientRect();<br>        var coordinate={<br>            x: e.clientX - rect.left * (canvas.width / rect.width),<br>            y: e.clientY - rect.top * (canvas.height / rect.height)<br>        }<br>        var map={<br>            x: parseInt(coordinate.x/50),<br>            y: parseInt(coordinate.y/50),<br>        }<br>        var map_block=parseInt(document.querySelector(“input:checked”).value);<br>        var map_layer=parseInt(document.querySelector(“select”).value);<br>        switch(map_layer){<br>               case 0:maps.bg[map.x][map.y]=map_block;break;<br>               case 1:maps.decorate[map.x][map.y]=map_block;break;<br>               case 2:maps.npc[map.x][map.y]=map_block;break;<br>               default:break;<br>               }<br>        console.log(maps);<br>//   输出地图数据 因浏览器限制 无法自动写入文件<br>        console.log(JSON.stringify(maps));<br>    }<br>//   图片加载 完毕后 写入素材盒<br>    image[0].onload=function(){<br>        document.querySelectorAll(“li”)[0].appendChild(image[0]);<br>            draw_map();<br>    }<br>    image[1].onload=function(){<br>            document.querySelectorAll(“li”)[1].appendChild(image[1]);<br>    }<br>    image[100].onload=function(){<br>            document.querySelectorAll(“li”)[2].appendChild(image[100]);<br>    }<br>    image[101].onload=function(){<br>            document.querySelectorAll(“li”)[3].appendChild(image[101]);<br>    }<br>    image[102].onload=function(){<br>            document.querySelectorAll(“li”)[4].appendChild(image[102]);<br>    }<br>//    绘制地图<br>    function draw_map(){<br>        context.clearRect(0,0,C_width,C_height);<br>        requestAnimationFrame(draw_map);<br>        var x_map=x_map||0;<br>        var y_map=y_map||0;<br>        for(var i=0;i&lt;40;i++){<br>            for(var y=0;y&lt;40;y++){<br>                    context.drawImage(image[maps.bg[i][y]],(i*50),(y*50));<br>            }<br>        }<br>        for(var i=0;i&lt;40;i++){<br>            for(var y=0;y&lt;40;y++){<br>                if(maps.decorate[i][y]&gt;=100){<br>                   context.drawImage(image[maps.decorate[i][y]],(i*50),(y*50));<br>                }<br>            }<br>        }<br>        for(var i=0;i&lt;40;i++){<br>            for(var y=0;y&lt;40;y++){<br>                if(maps.npc[i][y]&gt;=300){<br>                   context.drawImage(image[maps.npc[i][y]],(i*50),(y*50));<br>                }<br>            }<br>        }<br>    }</p>
+<p>单纯的前端html无法 将地图数据直接写入文件 所以需要手动将输出的地图数据保存到文档中，当然也可以使用electron等自带后端的开发方案输出地图数据.. 这只是一个初步的模版，要修改内容就增加或者替换不同的素材就行了，游戏的地图的生成算是基本上完成了…</p>
+
+
+                </div>
+            </article>
+
+
+            <div class="post-tags center">
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/canvas/">canvas</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/javascript/">javascript</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/Web前端/">Web前端</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/rpg/">rpg</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/小游戏/">小游戏</a>
+                   </span>
+                
+            </div>
+
+
+            <div class="social-share" data-mobile-sites="weibo,qq,qzone,facebook,twitter">
+                <span id="share-to">Share to</span>
+            </div>
+
+            <div class="post-footer">
+                
+                    <a class="left" href="/2018/04/17/e5-8e-9f-e7-94-9f-javascript-e5-88-b6-e4-bd-9crpg-e5-b0-8f-e6-b8-b8-e6-88-8f-e7-95-8c-e9-9d-a2-e5-8f-8a-e8-a7-92-e8-89-b2-e7-a7-bb-e5-8a-a8-e7-9a-84-e5-9f-ba-e6-9c-ac-e5-ae-9e-e7-8e-b0/" rel="prev" title="原生 javascript 制作RPG小游戏 界面及角色移动的基本实现">
+                        <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+                        <span>  原生 javascript 制作RPG小游戏 界面及角色移动的基本实现</span>
+                    </a>
+                
+                
+                    <a class="right" href="/2017/09/10/custom-music-player/" rel="next" title="利用web API 制作拥有音轨特效的自定义播放器">
+                        利用web API 制作拥有音轨特效的自定义播放器<i class="fa fa-arrow-circle-right fa-3x "></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+<footer>
+    
+        <footer class="page-footer">
+    <div class="footer-copyright">
+        <div class="container">
+            <div>© 2017 Copyright John Doe
+                <span class="right">
+                powered by
+                <a href="http://hexo.io">hexo</a>.
+                theme:
+                <a href="https://github.com/jonashao/hexo-theme-pteris">pteris</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    
+</footer>
+
+    
+</footer>
+
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/materialize/dist/js/materialize.min.js"></script>
+<script src="/lib/headroom.js/dist/headroom.min.js"></script>
+<script src="/lib/headroom.js/dist/jQuery.headroom.min.js"></script>
+
+
+
+    <script src="/lib/social-share.js/dist/js/share.min.js"></script>
+
+
+
+<script src="/js/pteris.js"></script>
+
+
+    <script src="/lib/lightgallery.js/dist/js/lightgallery.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

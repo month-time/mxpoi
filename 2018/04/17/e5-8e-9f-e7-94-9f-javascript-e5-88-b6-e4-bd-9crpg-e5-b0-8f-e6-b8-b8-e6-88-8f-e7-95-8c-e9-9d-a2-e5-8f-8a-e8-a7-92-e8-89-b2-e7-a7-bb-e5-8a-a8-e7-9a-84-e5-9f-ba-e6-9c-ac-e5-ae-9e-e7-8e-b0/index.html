@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="">
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="theme-color" content= #93b658 >
+    <title>原生 javascript 制作RPG小游戏 界面及角色移动的基本实现 | Hexo </title>
+
+    
+        <meta name="keywords" content=",,,,,,"/>
+        
+
+    
+    <meta name="description" content="继上一篇文章中做的地图编辑器，勃主制作了 现在便可以继续下一步，做出游戏的大致界面了. 现在的2D游戏界面常见的大致有两种形式： 一种是地图在游戏窗体上固定，人在地图中走动（也就是人相对屏幕移动..."/>
+
+    
+
+    
+
+    
+
+    
+        <link rel="stylesheet" href="/lib/social-share.js/dist/css/share.min.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/lib/materialize/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="/lib/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/css/post/atom-one-light.css">
+    <link rel="stylesheet" href="/css/pteris.css">
+
+
+    
+        <link rel="stylesheet" href="/css/post.css">
+    
+
+    
+        <link rel="stylesheet" href="/lib/lightgallery.js/dist/css/lightgallery.min.css">
+    
+
+    
+</head>
+
+<body>
+
+<header>
+    
+        <div class="header-fixed">
+    <nav class="white lime-text lighten-1 " role="navigation">
+        <div class="nav-wrapper container">
+            <div id="logo-container">
+                <a href="/">
+                    
+                    <span class="brand-logo">Hexo</span>
+                </a>
+            </div>
+
+            <ul class="right hide-on-med-and-down">
+                
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse">
+                <i class="fa fa-bars green-text"></i></a>
+        </div>
+    </nav>
+</div>
+
+<ul id="nav-mobile" class="side-nav">
+    
+</ul>
+
+
+
+    
+</header>
+
+<main>
+    
+
+    <div id="post">
+        <div class="container">
+            <div id="post-header" class="center">
+                <h1 class="center">原生 javascript 制作RPG小游戏 界面及角色移动的基本实现</h1>
+                <span class="post-date center">
+                    <i class="fa fa-calendar"></i>
+                    <time datetime="2018-04-17T06:26:58.000Z">
+                        2018-04-17
+                    </time>
+                </span>
+
+                
+
+                
+                    <div class="post-gallery">
+                        <div id="lightgallery">
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            <article>
+                <div class="content">
+                    
+    <p>继上一篇文章中做的地图编辑器，勃主制作了 现在便可以继续下一步，做出游戏的大致界面了. 现在的2D游戏界面常见的大致有两种形式： 一种是地图在游戏窗体上固定，人在地图中走动（也就是人相对屏幕移动了）； 而另一种则是游戏人物位置固定，游戏的地图在移动，这样看起来也是人物移动了。 <a href="https://month-time.github.io/small_RPG_Games/game_table.html" target="_blank" rel="noopener"> 完整demo</a> <img src="https://blog.voide.cc/wp-content/uploads/2018/04/RTGBS5KTRY3W1SWRQ010-300x182.png" alt> 这里我们讨论第二个方案：  首先写一个游戏画板和元素的配置和载入接口，其他方法会经常用到绘板的绘制线程，众所周知js里是没有线程的，这里 我们利用计时器进行模拟 。设置刷新时间 假设60帧  刷新时间就是1000/60s。 接着确定好任务的位置在游戏窗体的正中央，游戏的地图数组是一个二维数组，游戏地图不会小于我们的游戏窗体，所以游戏窗体在任意的一个时刻显示的都仅仅是一个游戏地图的一部分（我们在游戏窗体上显示的时候，仅仅需要读取和操作地图二维数组的一部分值就够了）。 我们如何来知道目前该显示哪一片地图数组中的内容到游戏面板上呢？这就要靠我们控制的角色了，通过上下左右控制角色相对整张地图的坐标，我们可以将整个游戏面板区域看作是我们操作的角色的视野，通过角色相对与整张地图的坐标，来得到角色相对地图数组的位置（即角色在数组中的i，j），这样就可以找到角色i，j旁边的一系列数组元素了。 当然，只照上面那样做的话，游戏的画面就会是一格一格动的，因为一个数组元素代表的是一个正方形的图片，角色的视野元素每变一次都至少一变化了一排的元素，不可能说只变化2分之一或者3分之一排的元素，这样画面就是按元素格移动，而不是像素点，看起来就会很恶心，一点都不流畅，要让游戏的画面按像素点移动该怎么做呢？ 首先，还是和前面一样的思维，按照角色相对数组的坐标，找出角色位置旁边的数组元素，但在显示这些元素的时候就不能通过角色相对数组的坐标来画了，要用角色相对地图的坐标来画。由于角色相对地图的坐标变化是连续的，所以这样画出来的图像也是连续的.</p>
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content>
+<meta name="author" content>
+
+<title>New HMTL document by NewJect</title>
+</head>
+<body>
+<p>键盘方向键控制</p>
+<div>
+    <canvas id="myCanvas" width height>
+      your browser doesn't support canvas!
+    </canvas>
+</div>
+<script>
+    var FPS=60;
+//    预载贴图
+    var image={
+        npc:\[\],
+        background:\[\]        
+    }   
+    image.npc\[0\]=new Image();
+    image.npc\[1\]=new Image();
+    image.npc\[0\].src="./img/角色停顿图.png";
+    image.npc\[1\].src="./img/角色行走图.png";
+    image.background\[0\]=new Image();
+    image.background\[1\]=new Image();
+    image.background\[100\]=new Image();
+    image.background\[101\]=new Image();
+    image.background\[102\]=new Image();
+    image.background\[0\].src="./img/001草地.png";
+    image.background\[1\].src="./img/002地砖.png";
+    image.background\[100\].src="./img/100红树.png";
+    image.background\[101\].src="./img/101绿树.png";
+    image.background\[102\].src="./img/102高绿树.png";
+
+
+<p>//    定义地图变量<br>    var maps;</p>
+<p>//    创建画布并设置画布宽高<br>    var canvas=document.getElementById(‘myCanvas’);<br>//    var C_width =(document.documentElement.clientWidth)<em>(0.95);<br>//    var C_height =(document.documentElement.clientHeight)</em>(0.95);<br>    var C_width =800;<br>    var C_height =500;<br>    canvas.width = C_width;<br>    canvas.height = C_height;<br>    var context = canvas.getContext(‘2d’);</p>
+<p>//    线程组<br>    var time={<br>        draw:setInterval(function(){<br>            context.clearRect(0,0,C_width,C_height);<br>            if(state.image_load==true&amp;&amp;map_load==true){<br>                draw_map();<br>                draw_npc();<br>            }<br>        },1000/FPS),<br>        npc_move:setInterval(function(){<br>            if(state.run_up==true){<br>                state.npc1_dire=3;<br>                if(state.npc1_state&lt;3){<br>                    state.npc1_state++;<br>                }else{<br>                    state.npc1_state=0;<br>                }<br>            }<br>            if(state.run_down==true){<br>                state.npc1_dire=0;<br>                if(state.npc1_state&lt;3){<br>                    state.npc1_state++;<br>                }else{<br>                    state.npc1_state=0;<br>                }<br>            }<br>            if(state.run_left==true){<br>                state.npc1_dire=1;<br>                if(state.npc1_state&lt;3){<br>                    state.npc1_state++;<br>                }else{<br>                    state.npc1_state=0;<br>                }<br>            }<br>            if(state.run_right==true){<br>                state.npc1_dire=2;<br>                if(state.npc1_state&lt;3){<br>                    state.npc1_state++;<br>                }else{<br>                    state.npc1_state=0;<br>                }<br>            }<br>        },125),<br>        map_move:setInterval(function(){<br>            if(state.run_up==true){<br>                state.map_y=state.map_y+state.map_speed;<br>            }<br>            if(state.run_down==true){<br>                state.map_y=state.map_y-state.map_speed;<br>            }<br>            if(state.run_left==true){<br>                state.map_x=state.map_x+state.map_speed;<br>            }<br>            if(state.run_right==true){<br>                state.map_x=state.map_x-state.map_speed;<br>            }<br>        },1000/FPS),<br>    }<br>//    状态组<br>    var state={<br>        image_load:false,<br>        map_load:false,<br>        Stand:false,<br>        run_up:false,<br>        run_down:false,<br>        run_left:false,<br>        run_right:false,<br>        npc1_dire:0,<br>        npc1_state:0,<br>//        地图偏移量<br>        map_x:0,<br>        map_y:0,<br>        map_speed:1.5,<br>    }<br>//    数据加载侦听<br>    window.onload=function(){<br>        loadJson();</p>
+<pre><code>state.image_load=true; 
+state.Stand=true;</code></pre><p>//        绑定按键<br>        window.onkeydown=function(){<br>            var keycode=this.event.keyCode;<br>            switch(keycode){<br>                case 38:state.Stand=false;state.run_up=true;break;<br>                case 40:state.Stand=false;state.run_down=true;break;<br>                case 37:state.Stand=false;state.run_left=true;break;<br>                case 39:state.Stand=false;state.run_right=true;break;<br>                default:break;<br>            }<br>        }<br>        window.onkeyup=function(){<br>            var keycode=this.event.keyCode;<br>            switch(keycode){<br>                case 38:state.Stand=true;state.run_up=false;break;<br>                case 40:state.Stand=true;state.run_down=false;break;<br>                case 37:state.Stand=true;state.run_left=false;break;<br>                case 39:state.Stand=true;state.run_right=false;break;<br>                default:break;<br>            }<br>        }<br>    }  </p>
+<p>//    绘制地图<br>    function draw_map(x_map,y_map){<br>        var x_map=x_map||0;<br>        var y_map=y_map||0;<br>        for(var i=0;i&lt;40;i++){<br>            for(var y=0;y&lt;40;y++){<br>                context.drawImage(image.background[maps.bg[i][y]],(i*50)+state.map_x,(y*50)+state.map_y);<br>            }<br>        }<br>        for(var i=0;i&lt;40;i++){<br>            for(var y=0;y&lt;40;y++){<br>                if(maps.decorate[i][y]&gt;=100){<br>                context.drawImage(image.background[maps.decorate[i][y]],(i*50)+state.map_x,(y*50)+state.map_y);<br>                }<br>            }<br>        }<br>    }</p>
+<p>//    绘制npc<br>    function draw_npc(){<br>        if(state.Stand==true){<br>            context.drawImage(image.npc[0],(state.npc1_state*96),(state.npc1_dire*96),100,100,350,275,50,50);<br>        }else{<br>            context.drawImage(image.npc[1],(state.npc1_state*96),(state.npc1_dire*96),100,100,350,275,50,50);<br>        }<br>    }<br>    function npc_run(action){<br>    }</p>
+<p>//    ajax读取地图数据<br>    function loadJson()<br>    {<br>     var xmlhttp;<br>     if(window.XMLHttpRequest)<br>        {xmlhttp=new XMLHttpRequest();}<br>        else<br>        {xmlhttp=new ActiveXObject(“Microsoft.XMLHTTP”);}<br>       xmlhttp.open(“get”,”map.json”,true);<br>     xmlhttp.send();<br>     xmlhttp.onreadystatechange=function()<br>     {<br>           if (xmlhttp.readyState==4 &amp;&amp; xmlhttp.status==200)<br>           {<br>                data=xmlhttp.responseText;<br>                data=JSON.parse(data);<br>                maps=data;<br>                map_load=true;<br>            }<br>     }<br>    }<br>    </script><p></p>
+</body>
+</html>
+
+                </div>
+            </article>
+
+
+            <div class="post-tags center">
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/js/">js</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/HTML5/">HTML5</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/canvas/">canvas</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/javascript/">javascript</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/Web前端/">Web前端</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/小游戏/">小游戏</a>
+                   </span>
+                
+            </div>
+
+
+            <div class="social-share" data-mobile-sites="weibo,qq,qzone,facebook,twitter">
+                <span id="share-to">Share to</span>
+            </div>
+
+            <div class="post-footer">
+                
+                    <a class="left" href="/2018/04/18/e4-b8-80-e4-b8-aa-e7-ae-80-e5-8d-95-e7-9a-84live2d-e6-8f-92-e4-bb-b6/" rel="prev" title="一个简单的live2d插件">
+                        <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+                        <span>  一个简单的live2d插件</span>
+                    </a>
+                
+                
+                    <a class="right" href="/2018/04/17/e5-8e-9f-e7-94-9f-javascript-e5-88-b6-e4-bd-9crpg-e5-b0-8f-e6-b8-b8-e6-88-8f-e5-9c-b0-e5-9b-be-e7-bc-96-e8-be-91-e5-99-a8/" rel="next" title="原生 javascript 制作RPG小游戏 地图编辑器">
+                        原生 javascript 制作RPG小游戏 地图编辑器<i
+                                class="fa fa-arrow-circle-right fa-3x "></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+<footer>
+    
+        <footer class="page-footer">
+    <div class="footer-copyright">
+        <div class="container">
+            <div>© 2017 Copyright John Doe
+                <span class="right">
+                powered by
+                <a href="http://hexo.io">hexo</a>.
+                theme:
+                <a href="https://github.com/jonashao/hexo-theme-pteris">pteris</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    
+</footer>
+
+    
+</footer>
+
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/materialize/dist/js/materialize.min.js"></script>
+<script src="/lib/headroom.js/dist/headroom.min.js"></script>
+<script src="/lib/headroom.js/dist/jQuery.headroom.min.js"></script>
+
+
+
+    <script src="/lib/social-share.js/dist/js/share.min.js"></script>
+
+
+
+<script src="/js/pteris.js"></script>
+
+
+    <script src="/lib/lightgallery.js/dist/js/lightgallery.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="">
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="theme-color" content= #93b658 >
+    <title>关于表单验证以及get请求内容的解析与使用 | Hexo </title>
+
+    
+        <meta name="keywords" content=",,"/>
+        
+
+    
+    <meta name="description" content="表单验证一般使用正则表达式对文本框内的文本进行匹配，验证文本内容是否符合输入要求。 当然也可以使用js方法对其进行手动遍历。 页面A代码：
+
+
+
+
+
+
+
+
+
+New HMTL document ..."/>
+
+    
+
+    
+
+    
+
+    
+        <link rel="stylesheet" href="/lib/social-share.js/dist/css/share.min.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/lib/materialize/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="/lib/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/css/post/atom-one-light.css">
+    <link rel="stylesheet" href="/css/pteris.css">
+
+
+    
+        <link rel="stylesheet" href="/css/post.css">
+    
+
+    
+        <link rel="stylesheet" href="/lib/lightgallery.js/dist/css/lightgallery.min.css">
+    
+
+    
+</head>
+
+<body>
+
+<header>
+    
+        <div class="header-fixed">
+    <nav class="white lime-text lighten-1 " role="navigation">
+        <div class="nav-wrapper container">
+            <div id="logo-container">
+                <a href="/">
+                    
+                    <span class="brand-logo">Hexo</span>
+                </a>
+            </div>
+
+            <ul class="right hide-on-med-and-down">
+                
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse">
+                <i class="fa fa-bars green-text"></i></a>
+        </div>
+    </nav>
+</div>
+
+<ul id="nav-mobile" class="side-nav">
+    
+</ul>
+
+
+
+    
+</header>
+
+<main>
+    
+
+    <div id="post">
+        <div class="container">
+            <div id="post-header" class="center">
+                <h1 class="center">关于表单验证以及get请求内容的解析与使用</h1>
+                <span class="post-date center">
+                    <i class="fa fa-calendar"></i>
+                    <time datetime="2017-06-06T05:40:07.000Z">
+                        2017-06-06
+                    </time>
+                </span>
+
+                
+
+                
+                    <div class="post-gallery">
+                        <div id="lightgallery">
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            <article>
+                <div class="content">
+                    
+    <p>表单验证一般使用正则表达式对文本框内的文本进行匹配，验证文本内容是否符合输入要求。 当然也可以使用js方法对其进行手动遍历。 页面A代码：</p>
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content>
+<meta name="author" content>
+
+<title>New HMTL document by NewJect</title>
+<style>
+/\*    *{margin: 0;padding: 0;}*/
+    body{background: #f1f1f1;color: #444;font-size: 13px;}
+    #loginform{padding: 50px;width: 300px;background-color: white;height: 200px;}
+    </style>
+</head>
+<body>
+<div>
+<form name="loginform" id="loginform" action="验证登陆.html" method="get">
+    <p>
+        <label for="user_login">用户名<br>
+        <input name="log" id="user_login" type="text" value></label>
+        <label class="Prompt login_prompt"></label>
+    </p>
+    <p>
+        <label for="user_pass">密码<br>
+        <input name="pwd" id="user_pass" type="password" value></label>
+        <label class="Prompt pass_prompt"></label>
+    </p>
+    <p class="submit">
+        <input name="submit" id="but_submit" type="submit" value="登录">
+    </p>
+</form>
+</div>
+<script src="jQuery/jquery-3.2.0.min.js"></script>
+<script type="application/javascript">
+var user=document.getElementById("user_login").nodeValue;
+    /*正则表达式 开头必须为大小写字母，允许输入大小写字母和数字，长度小于8大于6*/
+var RegExp_user=/^\[a-zA-Z\]\[a-zA-Z0-9\]{5,7}$/g;
+var user\_login=false,user\_pass=false;
+$("document").ready(function(){
+$("#user_login").blur(VerifyLogin);
+$("#user_pass").blur(VerifyPassword);
+$("form").submit(Verification);});
+function VerifyLogin(){
+    var values=$(this).val();
+    var testlogin=RegExp_user.test(values);
+    console.log(testlogin);
+    if(testlogin==false){
+            $(".login_prompt").text("用户名无效！");
+            $(".login_prompt").css("color","#f00");
+            user_login=false;
+        }else{
+            $(".login_prompt").text("该用户名可以使用");
+            $(".login_prompt").css("color","#0F0");
+            user_login=true;
+        }
+}
+function VerifyPassword(){
+        var values=$(this).val();
+    var testlogin=RegExp_user.test(values);
+    console.log(testlogin);
+    if(testlogin==false){
+            $(".pass_prompt").text("该密码无效！");
+            $(".pass_prompt").css("color","#f00");
+            user_pass=false;
+        }else{
+            $(".pass_prompt").text("该密码可以使用");
+            $(".pass_prompt").css("color","#0F0");
+            user_pass=true;
+        }
+}
+function Verification(){
+    if(user\_login==true&&user\_pass==true)
+        {
+         return true;
+        }
+    else
+        {
+            alert("用户信息出现错误，请重新检查后提交");
+            return false;
+        }
+}
+    </script>
+</body>
+</html>
+
+<p>通过get发送到新页面的表单数据会以url的形式显示在网站链接后，我们可以通过对其解析获得get到的数据。</p>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content>
+<meta name="author" content>
+
+<title>New HMTL document by NewJect</title>
+<script src="jQuery/jquery-3.2.0.min.js"></script>
+<script>
+//利用正则表达式遍历get到的url并对其解析获取有用的值
+function GetQueryString(name) {  
+    var reg = new RegExp("(^|&)" + name + "=(\[^&\]*)(&|$)");  
+    var r = window.location.search.substr(1).match(reg);  
+    if (r != null) return unescape(r\[2\]);  
+    return null;  
+}
+window.onload=function(){
+    var user=GetQueryString("log");
+    var pwd=GetQueryString("pwd");
+    alert(user+"欢迎登陆");
+    $("div").append("<h3>用户名："+user+"</h3>");
+    $("div").append("<h3>密码："+pwd+"</h3>");
+}
+    </script>
+</head>
+<body>
+
+<div>
+<h1>这是一个表单验证跳转页面</h1>
+</div>
+
+</body>
+</html>
+
+                </div>
+            </article>
+
+
+            <div class="post-tags center">
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/HTML/">HTML</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/js/">js</a>
+                   </span>
+                
+            </div>
+
+
+            <div class="social-share" data-mobile-sites="weibo,qq,qzone,facebook,twitter">
+                <span id="share-to">Share to</span>
+            </div>
+
+            <div class="post-footer">
+                
+                    <a class="left" href="/2017/06/18/69/" rel="prev" title="利用php获取外部网站的图片或者其他数据的方法">
+                        <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+                        <span>  利用php获取外部网站的图片或者其他数据的方法</span>
+                    </a>
+                
+                
+                    <a class="right" href="/2017/05/30/ios-webview-zoom/" rel="next" title="ios 页面缩放 失效问题">
+                        ios 页面缩放 失效问题<i
+                                class="fa fa-arrow-circle-right fa-3x "></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+<footer>
+    
+        <footer class="page-footer">
+    <div class="footer-copyright">
+        <div class="container">
+            <div>© 2017 Copyright John Doe
+                <span class="right">
+                powered by
+                <a href="http://hexo.io">hexo</a>.
+                theme:
+                <a href="https://github.com/jonashao/hexo-theme-pteris">pteris</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    
+</footer>
+
+    
+</footer>
+
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/materialize/dist/js/materialize.min.js"></script>
+<script src="/lib/headroom.js/dist/headroom.min.js"></script>
+<script src="/lib/headroom.js/dist/jQuery.headroom.min.js"></script>
+
+
+
+    <script src="/lib/social-share.js/dist/js/share.min.js"></script>
+
+
+
+<script src="/js/pteris.js"></script>
+
+
+    <script src="/lib/lightgallery.js/dist/js/lightgallery.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

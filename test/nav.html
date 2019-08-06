@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="./static/css/navigation.css">
+
+<nav class="navigation">
+    <ul class="list">
+        <li>
+            <a class="item" href="/admin">
+                <i class="fa fa-dashboard fa-fw"></i>
+                控制面板
+            </a>
+        </li>
+        <li class="ng-scope">
+            <a class="item" href="/admin/features">
+                <i class="fa fa-star fa-fw"></i>
+                推荐管理
+            </a>
+        </li>
+        <li class="ng-scope">
+            <div class="item">
+                <i class="fa fa-star fa-fw"></i>
+                推荐管理
+            </div>
+            <div class="sub-list">
+                <a class="item" >
+                    <i class="fa fa-circle-o fa-fw"></i>
+                    快讯
+                </a>
+            </div>
+        </li>
+    </ul>
+</nav>
+
+
+<script>
+function poi(){
+    return new Promise(function(next, error){
+        setTimeout(function(){
+            next("Asdsadasd")
+        },1000)
+        setTimeout(function(){
+            error("pppppppppp")
+        },2000)
+    })
+}
+poi().then(function (result) {
+    console.log(result)
+}).catch(function(errror){
+    console.log(errror);
+});
+</script>

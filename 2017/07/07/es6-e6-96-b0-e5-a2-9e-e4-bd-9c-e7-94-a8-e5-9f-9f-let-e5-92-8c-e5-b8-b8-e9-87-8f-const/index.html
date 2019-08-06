@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="theme-color" content="#93b658">
+    <title>ES6 新增作用域 let 和常量 const | Hexo </title>
+
+    
+        <meta name="keywords" content=",,">
+        
+
+    
+    <meta name="description" content="块级作用域 letjs过去只有函数作用域，意味着定义在函数中的参数和变量在函数外部是不可见的，而在一个函数内部任何位置定义的变量，在该函数内部任何地方都可见。 所以js并不推荐延迟声明变量，因为...">
+
+    
+
+    
+
+    
+
+    
+        <link rel="stylesheet" href="/lib/social-share.js/dist/css/share.min.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/lib/materialize/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="/lib/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/css/post/atom-one-light.css">
+    <link rel="stylesheet" href="/css/pteris.css">
+
+
+    
+        <link rel="stylesheet" href="/css/post.css">
+    
+
+    
+        <link rel="stylesheet" href="/lib/lightgallery.js/dist/css/lightgallery.min.css">
+    
+
+    
+</head>
+
+<body>
+
+<header>
+    
+        <div class="header-fixed">
+    <nav class="white lime-text lighten-1 " role="navigation">
+        <div class="nav-wrapper container">
+            <div id="logo-container">
+                <a href="/">
+                    
+                    <span class="brand-logo">Hexo</span>
+                </a>
+            </div>
+
+            <ul class="right hide-on-med-and-down">
+                
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse">
+                <i class="fa fa-bars green-text"></i></a>
+        </div>
+    </nav>
+</div>
+
+<ul id="nav-mobile" class="side-nav">
+    
+</ul>
+
+
+
+    
+</header>
+
+<main>
+    
+
+    <div id="post">
+        <div class="container">
+            <div id="post-header" class="center">
+                <h1 class="center">ES6 新增作用域 let 和常量 const</h1>
+                <span class="post-date center">
+                    <i class="fa fa-calendar"></i>
+                    <time datetime="2017-07-07T03:11:23.000Z">
+                        2017-07-07
+                    </time>
+                </span>
+
+                
+
+                
+                    <div class="post-gallery">
+                        <div id="lightgallery">
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            <article>
+                <div class="content">
+                    
+    <h2 id="块级作用域-let"><a href="#块级作用域-let" class="headerlink" title="块级作用域 let"></a><strong>块级作用域 let</strong></h2><p>js过去只有函数作用域，意味着定义在函数中的参数和变量在函数外部是不可见的，而在一个函数内部任何位置定义的变量，在该函数内部任何地方都可见。 所以js并不推荐延迟声明变量，因为它缺少块级作用域。所以推荐的做法是在函数体的顶部声明函数中可能用到的所有变量。 并且因为js变量提升的特性，写在函数体下方的变量依旧会在加载完文档流后自动提升到函数体的顶部。 JS在es6之前是没有块级作用域只有函数作用域的。尽管js的代码块语法貌似支持块级作用域，但实际上js并不支持。这个混淆之处可能成为错误之源。 当我们运行下面这段代码的时候</p>
+<p>var color=”red”<br>alert(color); //“red”<br>if (true){<br>　　var color=”blue”<br>   alert(color); //“blue”<br>}</p>
+<p>alert(color);//“blue”</p>
+<p>上面这个例子中由于js没有块级作用域 在if做声明的变量会将外部变量污染 导致输出结果改变，这里初看似乎没有什么大问题但是当你的代码量达到一定程度时 变量被污染后排查错误会是一个非常头痛的事情。</p>
+<p>if (true){<br>（function(){<br>　　var color=”blue”<br>    alert(color); //“blue”<br>}());<br>}<br>alert(color); //color is not defined</p>
+<p>在过去我们可以使用闭包的方式模拟块级作用域。 即利用函数作用域的特性：在一个函数中定义的变量，当这个函数调用完后，变量会被销毁。   不过现在因为es6新规中 加入了块级作用域的声明方法 let 我们就可以直接这样写：</p>
+<p>var color=”red”<br>alert(color); //“red”<br>if (true){<br>　　let color=”blue”<br>   alert(color); //“blue”<br>}<br>alert(color);//“red”</p>
+<p>或者这样</p>
+<p>for (let i = 0; i &lt; messages.length; i++) {<br>     …<br>   }</p>
+<h3 id="let和var的具体区别"><a href="#let和var的具体区别" class="headerlink" title="let和var的具体区别"></a>let和var的具体区别</h3><p>*<em><code>let</code>声明的变量直到控制流到达该变量被定义的代码行时才会被装载，所以在到达之前使用该变量会触发错误。而<code>var</code>会自动提升，即使写在函数方法下面上方的方法依旧可以触发和引用<code>var</code>. *</em>举个例子：</p>
+<p>function update() {<br>  console.log(“当前时间:”, t);  // 引用错误（ReferenceError）<br>  console.log(a);  // 12<br>  …<br>  var a=12;<br>  let t = readTachymeter();<br>}</p>
+<p>不可访问的这段时间变量一直处于作用域中，但是尚未装载，它们位于_临时死区（Temporal Dead Zone，简称TDZ_）中。</p>
+<h4 id="let声明的全局变量不是全局对象的属性。"><a href="#let声明的全局变量不是全局对象的属性。" class="headerlink" title="let声明的全局变量不是全局对象的属性。"></a><strong><code>let</code>声明的全局变量不是全局对象的属性。</strong></h4><p>这就意味着，你不可 以通过<code>window.变量名</code>的方式访问这些变量。它们只存在于一个不可见的块的作用域中，这个块理论上是Web页面中运行的所有JS代码的外层块。</p>
+<p>let b = 1;<br>window.b // undefined</p>
+<h4 id="用let重定义变量会抛出一个语法错误（SyntaxError）。"><a href="#用let重定义变量会抛出一个语法错误（SyntaxError）。" class="headerlink" title="用let重定义变量会抛出一个语法错误（SyntaxError）。"></a><strong>用<code>let</code>重定义变量会抛出一个语法错误（SyntaxError）。</strong></h4><p>这一条规则也可以帮助你检测琐碎的小问题。诚然，这亦是<code>var</code>与<code>let</code>的不同之处，当你全局搜索<code>var</code>替换为<code>let</code>时也会导致<code>let</code>重定义语法错误，因为这一规则对全局<code>let</code>变量也有效。 如果你的多个脚本中都声明了相同的全局变量，你最好继续用<code>var</code>声明这些变量。如果你换用了<code>let</code>，后加载的脚本都会执行失败并抛出错误。 (<code>let</code>是一个严格模式下的保留词。在非严格模式下，出于向后兼容的目的，你仍可以用<code>let</code>命名来声明变量、函数和参数，虽然你不会犯傻，但是你确实可以编写<code>var let = &#39;q&#39;;</code>这样的代码！不过<code>let let;</code>无论如何都是非法的。)</p>
+<h2 id="常量-const"><a href="#常量-const" class="headerlink" title="常量 const"></a><strong>常量 const</strong></h2><p>const声明一个只读的常量。一旦声明，常量的值就不能改变。 <code>const</code>声明的常量与<code>let</code>声明的变量类似，它们的不同之处在于，<code>const</code>声明的常量只可以在声明时赋值，不可随意修改，否则会导致<code>SyntaxError</code>（语法错误）。</p>
+<p>const abc= 3000; // 正确</p>
+<p>abc = 5000; // 语法错误（SyntaxError）<br>abc++; // 语法错误（SyntaxError）</p>
+<p>用<code>const</code>声明变量后必须要赋值，否则也抛出语法错误。</p>
+<p>const abc;  // 依然是语法错误</p>
+
+
+                </div>
+            </article>
+
+
+            <div class="post-tags center">
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/js/">js</a>
+                   </span>
+                
+                    <span class="post-tag chip">
+                        <a href="/tags/ES6/">ES6</a>
+                   </span>
+                
+            </div>
+
+
+            <div class="social-share" data-mobile-sites="weibo,qq,qzone,facebook,twitter">
+                <span id="share-to">Share to</span>
+            </div>
+
+            <div class="post-footer">
+                
+                    <a class="left" href="/2017/07/10/custom-input-number/" rel="prev" title="自定义  input  number  元素">
+                        <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+                        <span>  自定义  input  number  元素</span>
+                    </a>
+                
+                
+                    <a class="right" href="/2017/07/04/e5-85-b3-e4-ba-8eposition-e5-b1-9e-e6-80-a7/" rel="next" title="关于position属性">
+                        关于position属性<i class="fa fa-arrow-circle-right fa-3x "></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+<footer>
+    
+        <footer class="page-footer">
+    <div class="footer-copyright">
+        <div class="container">
+            <div>© 2017 Copyright John Doe
+                <span class="right">
+                powered by
+                <a href="http://hexo.io">hexo</a>.
+                theme:
+                <a href="https://github.com/jonashao/hexo-theme-pteris">pteris</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    
+</footer>
+
+    
+</footer>
+
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/materialize/dist/js/materialize.min.js"></script>
+<script src="/lib/headroom.js/dist/headroom.min.js"></script>
+<script src="/lib/headroom.js/dist/jQuery.headroom.min.js"></script>
+
+
+
+    <script src="/lib/social-share.js/dist/js/share.min.js"></script>
+
+
+
+<script src="/js/pteris.js"></script>
+
+
+    <script src="/lib/lightgallery.js/dist/js/lightgallery.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
